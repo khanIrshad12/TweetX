@@ -2,32 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+/* HTML: <div class="loader"></div> */
+.loader {
+    --d:22px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    color: #f8446e;
+    box-shadow: 
+      calc(1*var(--d))      calc(0*var(--d))     0 0,
+      calc(0.707*var(--d))  calc(0.707*var(--d)) 0 1px,
+      calc(0*var(--d))      calc(1*var(--d))     0 2px,
+      calc(-0.707*var(--d)) calc(0.707*var(--d)) 0 3px,
+      calc(-1*var(--d))     calc(0*var(--d))     0 4px,
+      calc(-0.707*var(--d)) calc(-0.707*var(--d))0 5px,
+      calc(0*var(--d))      calc(-1*var(--d))    0 6px;
+    animation: l27 1s infinite steps(8);
   }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  @keyframes l27 {
+    100% {transform: rotate(1turn)}
   }
-}
