@@ -7,6 +7,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup"
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Feed = () => {
 
@@ -34,10 +35,13 @@ const Feed = () => {
         try {
             const response = await axios.post('/api/post', values);
             if (response.status === 200) {
-                resetForm();
+
+                resetForm();   
                 setShowPopup(false);
+                toast.success("post added succesfull!!")
             }
         } catch (error) {
+            toast.error("Something went wrong")
             console.error('Failed to submit post:', error);
         }
     };
@@ -114,7 +118,7 @@ const Feed = () => {
                     <FeedCard postData={item} />
                 </div>
             ))
-                : <p className='flex justify-center items-center w-full h-screen text-3xl'>There is no User!!</p>
+                : <p className='flex justify-center items-center w-full h-screen text-3xl'>There is no Feed!!</p>
             }
         </div>
     );

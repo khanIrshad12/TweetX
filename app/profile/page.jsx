@@ -143,11 +143,11 @@ const profilepostedDetails =async()=>{
           />
         </div>
         <div className="py-4">
-          {activeTabIndex === 0 ? (
+          {activeTabIndex === 0 ?  postedDetails && postedDetails.length > 0 ?
             postedDetails?.map((item, id) => {
               return <div key={id}> <FeedCard postData={item} /></div>
-            })
-          ) : activeTabIndex === 1 ? followerDetails.length > 0 ? followerDetails.map((item, id) => {
+            }) : <p className='inline-block text-center w-full font-bold'> You don't have any post</p>
+           : activeTabIndex === 1 ? followerDetails.length > 0 ? followerDetails.map((item, id) => {
             return <div key={id}><UserCard users={item} /></div>
           }) : <p className='inline-block text-center w-full font-bold'> Your follower count is zero</p> : followingDetails.length > 0 ? followingDetails?.map((item, id) => {
             return <div key={id}><UserCard users={item} /></div>

@@ -17,8 +17,7 @@ const LoginForm = () => {
         setShowPassword(!showPassword);
     };
 
-    const sendLoginData = async (data, resetForm) => {
-        console.log(data);
+    const sendLoginData = async (data, resetForm,setSubmitting) => {
         try {
             const res = await axios.post("/api/login", data);
             if (res.status === 200) {
@@ -30,6 +29,8 @@ const LoginForm = () => {
         } catch (error) {
             toast.error("Failed to login!");
             console.log(error);
+        }finally{
+            setSubmitting(false)
         }
     };
 
@@ -42,9 +43,11 @@ const LoginForm = () => {
             email: Yup.string().email('Invalid email address').required('Email is required'),
             password: Yup.string().required('Password is required'),
         }),
-        onSubmit: (values, { resetForm }) => {
-            sendLoginData(values, resetForm);
-        },
+        onSubmit: (values, { resetForm,setSubmitting }) => {
+                sendLoginData(values, resetForm,setSubmitting);
+                
+        }
+    
     });
 
     return (
@@ -85,7 +88,7 @@ const LoginForm = () => {
                     </div>
                     <div className='flex justify-between items-center'>
                         <p>Forget Password?</p>
-                        <button type='submit' className='p-2 bg-rose-400 rounded-md text-white'>Login</button>
+                        <button type='submit' className='p-2 bg-rose-400 rounded-md text-white'> {formik.isSubmitting ? 'Loading...' : 'Login'}</button>
                     </div>
                 </form>
             </div>

@@ -9,23 +9,23 @@ import { toast } from "react-toastify";
 import Error from "next/error";
 
 export default function Home() {
-    const router =useRouter()
+    const router = useRouter()
 
-    const sendUserData = async (data,resetForm) => {
+    const sendUserData = async (data, resetForm, setSubmitting) => {
         try {
             const res = await axios.post("api/register", data);
-            console.log(res);
             if (res.status == 201) {
-                console.log("Data is posted successfull", res.data.message);
                 toast.success("register successfull!!");
                 resetForm();
                 router.push('/login');
             }
         } catch (error) {
-            toast.error("falied to register!!")
+            toast.error(error.response.data.error)
             console.log(error);
             resetForm();
-            
+
+        } finally {
+            setSubmitting(false)
         }
     }
 
@@ -44,12 +44,11 @@ export default function Home() {
                 .oneOf([Yup.ref('password'), null], 'Passwords must match')
                 .required('Confirm Password is required'),
         }),
-        onSubmit: (values,{ resetForm }) => {
-            console.log(values);
-            sendUserData(values,resetForm)
+        onSubmit: (values, { resetForm, setSubmitting }) => {
+            sendUserData(values, resetForm, setSubmitting)
         },
     });
-    
+
     return (
         <>
 
@@ -109,7 +108,7 @@ export default function Home() {
                             ) : null}
 
                             <div className='flex items-center justify-end'>
-                                <button type='submit' className='p-2 bg-rose-400 rounded-md text-white'>Sign Up</button>
+                                <button type='submit' className='p-2 bg-rose-400 rounded-md text-white'> {formik.isSubmitting ? 'Loading...' : 'SignUp'}</button>
                             </div>
                         </form>
                     </div>
